@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="MK lab" />
+  <title>Memory experiment</title>
+  <link href="myPlugins/jspsych_mk.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <!-- 必要なプラグイン -->
+  <script src="jspsych-6-2/jspsych.js"></script>
+  <script src="jspsych-6-2/plugins/jspsych-html-keyboard-response.js"></script>
+  <script src="myPlugins/jspsych-fullscreen-J.js"></script>
+  <!-- ここまで -->
+
+  <!-- 実験-->
+  <script type="text/javascript">
+
+    /*ようこそ画面*/
+    var welcome = {
+      type: "html-keyboard-response",
+      stimulus: "本実験にご参加いただき，ありがとうございます。",
+    };
+
+    /*実験を構成*/
+    var timeline = [];
+
+    /*各段階を追加*/
+    timeline.push(welcome);
+
+    /*実験開始*/
+    jsPsych.init({
+      timeline: timeline,
+    });
+
+  </script>
+  <!--ここまで-->
+</body>
+</html>

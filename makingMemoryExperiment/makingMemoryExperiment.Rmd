@@ -1,0 +1,216 @@
+---
+title: ""
+date: "`r Sys.Date()`"
+output:
+  rmdformats::html_clean:
+    highlight: kate
+---
+
+
+```{r knitr_init, echo=FALSE, cache=FALSE}
+library(knitr)
+library(rmdformats)
+
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+	             cache=TRUE,
+               prompt=FALSE,
+               tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=75)
+```
+
+# 今回の目的
+シンプルな記憶実験を作成することを目的とします。具体的には，単語をランダムな順に呈示し，その後，自由再生を行ってもらうというものです。
+
+### アウトライン
+最初に実験のアウトラインを考えてから，コードを書くことが重要です。特に複雑な実験を作成する場合は，アウトラインを十分に練ることが重要です。
+
+#### 今回のアウトライン
+実験は以下のようなブロックを順番に実施することにしました。
+
+ 1. 「ようこそ」画面
+ 2. 課題の説明
+ 3. 学習段階
+  - 「注視点→単語」という試行を複数回，繰り返す
+ 4. 自由再生段階
+  - 1分間，覚えた単語を回答用紙（これは物理的な紙を用意します）に書いてもらう画面を呈示
+ 5.「終わり」画面
+
+#### 必要なパーツ（試行）
+アウトラインを元に，各段階にどのようなパーツ（試行）が必要かを考えます。以下のパーツが必要です。パーツをどのように組み合わせるかは，作成しながら考えることにします。
+
+ 1. 「ようこそ」画面
+ 2. 課題の説明
+ 3. 注視点
+ 4. 単語
+ 5. 自由再生（1分間）
+ 6. 「終わり」画面
+
+### セットアップ
+　今回の実験では，単語を日本語で呈示しますが，jspsychはデフォルトのままだと，日本語が表記されない部分があるために，スタイルシートとプラグインを修正したものを用意しています。  以下のmyPlugins.zipをダウンロードしてください。  
+　また，jspsychを以下の公式サイトからダウンロードしてください。執筆時点の最新版（jspysch-6-2）で進行していきますが，適宜，最新版を用いてください。  
+　つづいて，実験のファイルを入れるためにmemoryExperimentというフォルダを任意の場所に作成してください。このフォルダにjspsych本体のフォルダとmyPluginsフォルダを入れてください。以下のような構成になります。
+
+ * memoryExperiment
+  * jspsych-6-2
+  * myPlugins
+  
+  つづいて，エディター（atom，sublimetext，メモ帳など）を立ち上げてください。最初に，jsPsychの基本構造を記述したファイルを作成します。以下のコードをコピーして貼り付けてください。このファイルにindex.htmlという名前をつけてmemoryExperimentフォルダに保存してください。
+
+```{html echo = TRUE}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="MK lab" />
+  <title>Memory experiment</title>
+  <link href="myPlugins/jspsych_mk.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <!-- 必要なプラグイン -->
+  <script src="jspsych-6-2/jspsych.js"></script>
+  <script src="jspsych-6-2/plugins/jspsych-html-keyboard-response.js"></script>
+  <script src="myPlugins/jspsych-fullscreen-J.js"></script>
+  <!-- ここまで -->  
+  
+  <!-- 実験-->
+  <script type="text/javascript">
+  
+  </script>
+  <!--ここまで-->
+</body>
+</html>
+```
+現在のmemoryExperimentフォルダは以下のようになります。
+
+
+ * jspsych-6-2
+ * myPlugins
+ * index.html
+
+
+実験のコードは，`<!--実験-->`と書かれた部分に書いていきます。
+
+### 修正プラグインなどについて
+　myPluginsについて，少しだけ説明します。jspsychにて細かい設定を行いたい場合は，プラグインやスタイルシートの修正が必須なため，詳しくは別ページで紹介予定です。 この中には，スタイルシート（jspscyh.css）とフルスクリーン表示用のjspsych-fullscreen.jsを少し修正したjspsych-fullscreen-J.jsが入っています。  
+　まず，スタイルシート(css)の修正として，OS間で共通したフォントを呈示するため，webフォントであるNoto sans JPを指定するように変更しています。また，フォントサイズを絶対指定（例えば，16px）にしてしまうと，ディスプレイサイズや画面解像度によって，文字の大きさが著しく異なってしまい，レイアウトが崩れる場合があるです。そこで，縦の画面解像度を基準とした相対指定となるフォントサイズ（vh）を用いています。同一のディスプレイ環境を構築できる場合には，フォントサイズは絶対指定の方が論文などでは理解してもらいやすいかもしれません。  
+　また，フォントの種類やフォントの大きさといった要素は，単語の情報処理に影響する可能性があることも，これらの修正の理由です。例えば，記憶の研究では，フォントサイズが単語の記憶成績に影響すること（Halmamish, 2018)や可読性の低いフォントの方が処理水準が高く，単語の記憶成績がよいこと（Diemand-Yauman et al., 2011）が知られています。  
+　jspsych-fullscreen-J.jsについてですが，jspsychでフルスクリーン表示を行うためには「許可」が必要となります。そのためにjspsych-fullscreen.jsというライブラリが用意されていますが，このライブラリでは英語で許可を求める文章が書いてあります。その文章を日本語化したものが，jspsych-fullscreen-J.jsです。基本的には，他の情報からの妨害を防ぐため，フルスクリーンでの実験実施を推奨します。
+
+
+## 実験の作成
+それでは，これから，単語の記憶実験プログラムを作成していきましょう。最小限の構成（ようこそ画面のみ）を作成した後に，徐々に教示画面や学習段階を追加していきましょう。
+
+### ようこそ画面の呈示
+まず，実験起動後に表示する「ようこそ」画面を作成しましょう。index.htmlをエディターで開いてください。そして， &lt;script type=text/javascript&gt;の下に，以下のコードを書いてみましょう。
+
+```{js echo = TRUE}
+/*ようこそ画面*/
+var welcome = {
+  type: "html-keyboard-response",
+  stimulus: '本実験にご参加いただき，ありがとうございます。',
+};
+
+/*実験を構成*/
+var timeline = [];
+
+/*各段階を追加*/
+timeline.push(welcome);
+
+/*実験開始*/
+jsPsych.init({
+  timeline: timeline,
+});
+```
+
+　ここでは，welcomeという変数に画面に表示させる文字列を格納しています。jspsychでは，各変数（var XXXX）に対して，どのような変数かをtypeで指定し，stimulusで刺激を指定することで，1つの試行やブロック（1つの要素と呼ぶべきかもしれません）を作成していきます。  
+　今回は，welcomeという名前で，html-keyboard-responseという，キーボード入力を前提とした種類の試行を作成し，そこで呈示する文字をstimulusに記述しています。つまり，このwelcomeという変数は，キーボード入力を受け付ける試行で，かつ，画面に本実験にご参加いただき，ありがとうございますという文字列を刺激として呈示するというものになっています。    
+　このように，jspsychでの実験の作成は，まず試行や刺激を定義する変数を作っていきます（パーツ）。つづいて，どのような順番でこれらの試行を構成するのかを定義します（パーツを組立ていく）。それが`*/実験を構成/*`からの部分にあたります。      
+　各パーツを作成する度に組み立てる（timeline.push）することもできます。しかし，パーツの部分と組立ての部分の区別しにくくなり，組立てミス（実験の構成ミス）が生じやすくなります。パーツごとに作成し，最後に実験を構成する方法を推奨します。    
+　では，実験の構成をしていきましょう。jspsychでは，timelineという実験の流れを表す変数を作成し，timelineに各試行や各ブロックを追加（push）していくことで，実験を構成します。最初に，var timeline = [];として，空のtimelineを作成します。つづいて，各段階を追加してきます（今回はようこそ画面1つだけです）。timelineへの追加は，timeline.push(要素名)で可能です。ここでは，ようこそ画面を追加するので，timeline.push(welcome);と記述します。    
+　そして，最後にjspsychを開始する記述(jsPsych.init以下）を書けば，ようこそ画面を呈示する実験の完成です。なお，このjsPsych.init以下は必ず書かなければならないので，注意してください。    時折でてくる*/やに囲まれた部分は，コメントといい，コードとして実行しない部分です。コメントとして，その後に実行する処理の目的や位置づけを記述しておくと，後で見直す時や他の人と共有する際にコードの可読性が高くなります。一手間ですが，できるだけコメントを書いておきましょう。  
+　また，変数名や関数名をその目的に合った名前にするということもコードの可読性を高める上では重要です。例えば，今回は「ようこそ画面」を格納する変数名をwelcomeにしていますが，もし，これがxという，その変数がどのような役割が伝わらない名前だとしたら，どうでしょうか？最後にタイムラインに追加した時など，この変数の位置づけがわかりにくく，混乱を生む原因となってしまいます。
+
+### ここまでのまとめ
+　ここまでをまとめると，以下のようなindex.htmlが作成できたはずです
+
+```{html echo = TRUE}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="MK lab" />
+  <title>Memory experiment</title>
+  <link href="myPlugins/jspsych_mk.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <!-- 必要なプラグイン -->
+  <script src="jspsych-6-2/jspsych.js"></script>
+  <script src="jspsych-6-2/plugins/jspsych-html-keyboard-response.js"></script>
+  <script src="myPlugins/jspsych-fullscreen-J.js"></script>
+  <!-- ここまで -->  
+  
+  <!-- 実験-->
+  <script type="text/javascript">
+  
+    /*ようこそ画面*/
+    var welcome = {
+      type: "html-keyboard-response",
+      stimulus: '本実験にご参加いただき，ありがとうございます。',
+    };
+    
+    /*実験を構成*/
+    var timeline = [];
+    
+    /*各段階を追加*/
+    timeline.push(welcome);
+    
+    /*実験開始*/
+    jsPsych.init({
+      timeline: timeline,
+    });
+
+  </script>
+  <!--ここまで-->
+</body>
+</html>
+```
+
+　一度，index.htmlを保存し，ブラウザで開いてみましょう。  
+　どうでしょうか？ようこそ画面は表示されましたか？なお，ようこそ画面は，いずれかのキーを押すと終了するようになっています。
+　
+#### 文字の色や大きさの変更
+
+さて，次に取り込むのは文字の色や大きさの変更です。現在，ようこそ画面のメッセージは黒色で表示されていますが，実験に参加してくださった方への感謝を示すため，赤色で表示したい場合を考えます。  
+ここで用いているtypeはhtml-keyboard-responseというものです。これはHTML言語を表示し，キーボード入力を受け付けるという変数になっています。HTMLとはウェブページなどで使われる言語です。  
+ようこそメッセージはHTML言語によって表示されているため，HTML言語の記法によって，色などの変更が可能です。  
+以下のように，スタイルシートと呼ばれるデザインを担うしくみを用いて，HTMLで書かれた文字のデザインを変更できます。
+
+```{js echo = TRUE}
+/*ようこそ画面*/
+var welcome = {
+  type: "html-keyboard-response",
+  stimulus: '<div style = "color: tomato">本実験にご参加いただき，ありがとうございます。</div>',
+};
+```
+
+ここでは，`<div style = "color: tomato">`と記述することで，文字の色をtomato（赤）に変更しています。 
+なお，スタイルシートの記法などについては，今回の目的を超えるので詳細な説明は割愛します。  
+このように，文字の色の変更などはスタイルシートで行う必要があります。ストループ課題など，色の変更が必要な課題では重要なポイントになります。
+
+
+### 注視点の作成
