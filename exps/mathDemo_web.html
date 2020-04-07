@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="MK lab" />
+    <title>Math Demo</title>
+    <link href="myPlugins/jspsych_mk.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+    <script src="jspsych/jspsych.js"></script>
+    <script src="myPlugins/jspsych-fullscreen-J.js"></script>
+    <script src="jspsych/plugins/jspsych-html-button-response.js"></script>
+    <script type="text/javascript">
+        var mathTrial = {
+            type: 'html-button-response',
+            stimulus: '1 + 1 + 1 = 1 ',
+            choices: ['誤り', '正しい'],
+            prompt: '<p>計算結果が正しいかどうかを判断してください</p>',
+            //試行開始時に正しい計算式または誤った計算式を生成する
+            on_start: function(trial) {
+                var mathCorrect = 0;
+                var mathNumbers = [];
+                for (var i = 0; i < 3; i++) {
+                    mathNumbers[i] = Math.floor(Math.random() * 9 + 1);
+                    mathCorrect = mathCorrect + mathNumbers[i];
+                }
+
+                mathBranch = Math.floor(Math.random() * 2);
+
+                //正しい計算式を出す
+                if (mathBranch == 0) {
+                    trial.stimulus = '<p><div style = "font-size: 4vh">' + String(mathNumbers[0]) + ' + ' + String(mathNumbers[1]) + ' + ' + String(mathNumbers[2]) + ' = ' + String(mathCorrect) + '</p></div>';
+                }
+                //誤った計算式を出す
+                else {
+                    trial.stimulus = '<p><div style = "font-size: 4vh">' + String(mathNumbers[0]) + ' + ' + String(mathNumbers[1]) + ' + ' + String(mathNumbers[2]) + ' = ' + String(mathCorrect + Math.floor(Math.random() * 9 + 1)) + '</p></div>';
+                }
+            }
+        };
+
+        var mathDuration = 60 * 100;
+
+        var mathPhase = {
+            timeline: [mathTrial],
+            loop_function: function(data) {
+                //計算課題の経過時間をこれまでの反応時間を合計して測定（html-button-responseは計算課題だけなのでこれを利用）
+                var sumMathTime = jsPsych.data.get().filter({
+                    trial_type: 'html-button-response'
+                }).select('rt').sum();
+
+                //計算課題の経過時間（sumMathTime）が予定時間（mathDuration)以下の場合はループする（trueでループ継続）
+                if (sumMathTime <= mathDuration) {
+                    return true;
+                } else {
+                    return false;
+                };
+            }
+        };
+        //実験を構成
+        //サーバーへの保存関数
+        function saveData() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'write_data.php'); // change 'write_data.php' to point to php script.
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onload = function() {
+                if (xhr.status == 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    console.log(response.success);
+                }
+            };
+            xhr.send(jsPsych.data.get().json());
+        }
+        var timeline = [];
+        timeline.push(mathPhase);
+
+        jsPsych.init({
+            timeline: timeline,
+            on_finish: saveData
+        });
+
+    </script>
+    <!-- code folding -->
+</body>
+
+</html>

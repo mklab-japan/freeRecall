@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="MK lab" />
+    <title>Likert Demo</title>
+    <link href="myPlugins/jspsych_mk.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <!-- 必要なプラグイン -->
+    <script src="jspsych/jspsych.js"></script>
+    <script src="myPlugins/jspsych-survey-likert-viewport.js"></script>
+    <!-- ここまで -->
+
+    <!-- 実験-->
+    <script type="text/javascript">
+        //選択肢を作成
+        const responseValues = [
+            'あてはまらない',
+            'あまりあてはまらない',
+            'どちらとも言えない',
+            'ややあてはまる',
+            'あてはまる'
+        ]
+
+
+        const askCatLiking = {
+            type: 'survey-likert',
+            questions: [{
+                prompt: 'わたしは猫が好きだ',
+                labels: responseValues,
+                required: true
+            },
+            {
+                prompt: 'わたしは犬が好きだ',
+                labels: responseValues,
+                required: true
+            }],
+            button_label: '次へ',
+            scale_width: 50
+        };
+
+        //実験を構成
+        const timeline = [];
+        timeline.push(askCatLiking);
+
+        jsPsych.init({
+            timeline: timeline,
+        });
+    </script>
+    <!--ここまで-->
+</body>
+
+</html>
