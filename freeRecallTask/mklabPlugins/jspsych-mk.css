@@ -1,0 +1,342 @@
+/*
+ * CSS for jsPsych experiments.
+ *
+ * This stylesheet provides minimal styling to make jsPsych
+ * experiments look polished without any additional styles.
+ */
+
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP:400,500&display=swap');
+
+/* customaized by MK */
+
+[data-ruby] {
+    position: relative;
+}
+[data-ruby]::before {
+    content: attr(data-ruby);
+    position: absolute;
+    top: -1em;
+    left: 0;
+    right: 0;
+    margin: auto;
+    font-size: 1.3vh;
+    font-family: 'Noto Sans JP', 'Arial', sans-serif;
+}
+/* 以下追加 */
+rt {
+    display: none;
+}
+
+/* テキスト入力用 */
+#jspsych-html-keyboard-hiragana-stimulus {
+    position: absolute;
+    top: 47vh;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    font-size: 4vh;
+    font-family: 'Noto Sans JP', 'Arial', sans-serif;
+}
+
+#jspsych-html-keyboard-hiragana-prompt {
+    position: absolute;
+    top: 30vh;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    font-size: 2vh;
+        font-family: 'Noto Sans JP', 'Arial', sans-serif;
+}
+
+#jspsych-html-keyboard-hiragana-inputBox {
+    position: absolute;
+    top: 70vh;
+    left: 30vw;
+    border: solid 2px gray;
+    background-color: whitesmoke;
+    width: 40vw;
+    height: 5vh;
+    margin: auto;
+    font-size: 3vh;
+    font-family: 'Noto Sans JP', 'Arial', sans-serif;
+}
+
+#jspsych-html-keyboard-katakana-stimulus {
+    position:absolute;
+    top: 47vh;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    font-family: 'Noto Sans JP', 'Arial', sans-serif;
+}
+
+#jspsych-html-keyboard-katakana-stimulus {
+    position: absolute;
+    top: 47vh;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    font-size: 4vh;
+    font-family: 'Noto Sans JP', 'Arial', sans-serif;
+}
+
+#jspsych-html-keyboard-katakana-prompt {
+    position: absolute;
+    top: 30vh;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    font-size: 2vh;
+        font-family: 'Noto Sans JP', 'Arial', sans-serif;
+}
+
+#jspsych-html-keyboard-katakana-inputBox {
+    position: absolute;
+    top: 70vh;
+    left: 30vw;
+    border: solid 2px gray;
+    background-color: whitesmoke;
+    width: 40vw;
+    height: 5vh;
+    margin: auto;
+    font-size: 3vh;
+    font-family: 'Noto Sans JP', 'Arial', sans-serif;
+}
+
+#jspsych-html-keyboard-katakana-stimulus {
+    position:absolute;
+    top: 47vh;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    font-family: 'Noto Sans JP', 'Arial', sans-serif;
+}
+@keyframes blink{
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+.textCursor {
+    animation: blink 0.5s linear infinite alternate;
+}
+
+/*スライダーの次へ*/
+#jspsych-html-slider-response-next{
+    font-size: 2vh;
+    position: absolute;
+    left:48vw;
+    right:48vw;
+    bottom:15vh;
+}
+
+#html-button-response-prompt{
+    font-size: 2vh;
+    position: absolute;
+    top: 20vh;
+    right: 0;
+    left: 0;
+    margin: auto;
+    color: darkslategray
+}
+
+#jspsych-html-button-response-btngroup{
+    position: absolute;
+    top: 65vh;
+    right: 0;
+    left: 0;
+    margin: auto;
+}
+
+/* リッカートの質問項目の書式変更*/
+label.jspsych-survey-likert-statement {
+    font-size: 2vh;
+    line-height: 2;
+}
+
+/* リッカートの選択肢の書式変更*/
+label.jspsych-survey-likert-opt-label {
+    font-size: 1.75vh;
+    line-height: 1.5;
+}
+
+/* 多肢選択の質問項目の説明*/
+.jspsych-survey-multi-choice-preamble {
+    font-size: 1.75vh;
+    line-height: 1.5;
+    text-align: left;
+}
+
+/* 多肢選択の質問項目の書式変更*/
+p.jspsych-survey-multi-choice-text {
+    font-size: 2vh;
+    line-height: 1.5;
+}
+
+/* 多肢選択の選択肢の書式変更*/
+label.jspsych-survey-multi-choice-text {
+    font-size: 1.75vh;
+    line-height: 1.5;
+}
+
+/*テキスト入力の書式変更*/
+.jspsych-survey-text-preamble {
+    font-size: 1.75vh;
+    line-height: 1.5;
+    text-align: left;
+}
+
+/*テキスト入力の書式変更*/
+.jspsych-survey-text {
+    font-size: 2vh;
+    line-height: 1.5;
+    text-align: left;
+}
+
+/*テキスト入力の書式変更*/
+textarea {
+    font-size: 1.5vh;
+}
+
+/*ラジオボタンの書式変更*/
+input[type="radio"] {
+    font-size: 1.5vh;
+    vertical-align: 0.35vh;
+}
+
+/*survey-textの「次へ」ボタンの書式変更*/
+input[type="submit"] {
+    font-size: 1.5vh;
+    vertical-align: 0.35vh;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.5)
+}
+
+/* Container holding jsPsych content */
+
+.jspsych-display-element {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.jspsych-display-element:focus {
+    outline: none;
+}
+
+.jspsych-content-wrapper {
+    display: flex;
+    margin: auto;
+    flex: 1 1 100%;
+    width: 100%;
+}
+
+.jspsych-content {
+    max-width: 95%;
+    /* this is mainly an IE 10-11 fix */
+    text-align: center;
+    margin: auto;
+    /* this is for overflowing content */
+}
+
+.jspsych-top {
+    align-items: flex-start;
+}
+
+.jspsych-middle {
+    align-items: center;
+}
+
+/* fonts and type */
+
+.jspsych-display-element {
+    font-family: 'Noto Sans JP', 'Arial', sans-serif;
+    font-size: 4vh;
+    line-height: 1.5;
+}
+
+/* Form elements like input fields and buttons */
+
+.jspsych-display-element input[type="text"] {
+    font-family: 'Noto Sans JP', 'Arial', sans-serif;
+    font-size: 2vh;
+}
+
+/* borrowing Bootstrap style for btn elements, but combining styles a bit */
+.jspsych-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: auto;
+    font-size: 2.5vh;
+    font-weight: 400;
+    font-family: 'Noto Sans JP', 'Arial', sans-serif;
+    cursor: pointer;
+    line-height: 1.4;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.jspsych-btn:hover {
+    background-color: #ddd;
+    border-color: #aaa;
+}
+
+.jspsych-btn:disabled {
+    background-color: #eee;
+    color: #aaa;
+    border-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* jsPsych progress bar */
+
+#jspsych-progressbar-container {
+    color: #555;
+    border-bottom: 1px solid #dedede;
+    background-color: #f9f9f9;
+    margin-bottom: 1em;
+    text-align: center;
+    padding: 8px 0px;
+    width: 100%;
+    line-height: 1em;
+}
+
+#jspsych-progressbar-container span {
+    font-size: 14px;
+    padding-right: 14px;
+}
+
+#jspsych-progressbar-outer {
+    background-color: #eee;
+    width: 50%;
+    margin: auto;
+    height: 14px;
+    display: inline-block;
+    vertical-align: middle;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+#jspsych-progressbar-inner {
+    background-color: #aaa;
+    width: 0%;
+    height: 100%;
+}
+
+/* Control appearance of jsPsych.data.displayData() */
+#jspsych-data-display {
+    text-align: left;
+}
