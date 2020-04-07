@@ -32,7 +32,6 @@ const learningPhase = {
 }
 
 //計算課題
-//計算段階を実施したい時間
 const mathTrial = {
     type: 'html-button-response',
     stimulus: '1 + 1 + 1 = 1 ',
