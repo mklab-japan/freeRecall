@@ -1,8 +1,4 @@
 //設定
-//参加者IDの入力
-// 0 = ランダム割り当て
-// 1 = 参加者に入力してもらう
-const subjectIDsetting = 0;
 
 //計算課題の有無
 // 0 = 計算課題なし
@@ -23,7 +19,8 @@ const freeRecallDuration = 60 * 1000;
 const postTrialGap = 0.5 * 1000;
 
 //学習段階の教示
-const learningInst = '<div style="font-size: 3vh"><p>これから画面に表示される単語を覚えてください。</p>' +
+const learningInst = '<div style="font-size: 3vh"><p>この実験では，紙とペンが必要です。用意してください。</p>' +
+     '<p>これから画面に表示される単語を覚えてください。</p>' +
     '<p>準備ができたら「次へ」を押してください。</p></div>'
 
 //自由再生段階の教示
