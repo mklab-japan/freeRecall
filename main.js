@@ -91,7 +91,6 @@ const getStartTime = {
     }
 }
 
-
 //計算段階（mathDurationの時間までループ）
 const mathPhase = {
     timeline: [mathTrial],
@@ -174,7 +173,6 @@ jsPsych.init({
                 jsPsych.data.displayData("csv")
                 break;
             case 1:
-
                 //終了時にデータをcsvに出力
                 jsPsych.data.get().localSave("csv", "data.csv")
                 break;
