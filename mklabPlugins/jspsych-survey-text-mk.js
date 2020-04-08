@@ -77,7 +77,6 @@ jsPsych.plugins['survey-text'] = (function() {
   }
 
   plugin.trial = function(display_element, trial) {
-
     for (var i = 0; i < trial.questions.length; i++) {
       if (typeof trial.questions[i].rows == 'undefined') {
         trial.questions[i].rows = 1;
@@ -117,12 +116,11 @@ jsPsych.plugins['survey-text'] = (function() {
       var question_index = question_order[i];
       html += '<div id="jspsych-survey-text-'+question_index+'" class="jspsych-survey-text-question" style="margin: 2em 0em;">';
       html += '<p class="jspsych-survey-text">' + question.prompt + '</p>';
-      var autofocus = i == 0 ? "autofocus" : "";
       var req = question.required ? "required" : "";
       if(question.rows == 1){
-        html += '<input type="text" id="input-'+question_index+'"  name="#jspsych-survey-text-response-' + question_index + '" data-name="'+question.name+'" size="'+question.columns+'" '+autofocus+' '+req+' placeholder="'+question.placeholder+'"></input>';
+        html += '<input type="text" id="input-'+question_index+'"  name="#jspsych-survey-text-response-' + question_index + '" data-name="'+question.name+'" size="'+question.columns+'" '+req+' placeholder="'+question.placeholder+'"></input>';
       } else {
-        html += '<textarea id="input-'+question_index+'" name="#jspsych-survey-text-response-' + question_index + '" data-name="'+question.name+'" cols="' + question.columns + '" rows="' + question.rows + '" '+autofocus+' '+req+' placeholder="'+question.placeholder+'"></textarea>';
+        html += '<textarea id="input-'+question_index+'" name="#jspsych-survey-text-response-' + question_index + '" data-name="'+question.name+'" cols="' + question.columns + '" rows="' + question.rows + '" '+req+' placeholder="'+question.placeholder+'"></textarea>';
       }
       html += '</div>';
     }
@@ -132,9 +130,6 @@ jsPsych.plugins['survey-text'] = (function() {
 
     html += '</form>'
     display_element.innerHTML = html;
-
-    // backup in case autofocus doesn't work
-    display_element.querySelector('#input-'+question_order[0]).focus();
 
     display_element.querySelector('#jspsych-survey-text-form').addEventListener('submit', function(e) {
       e.preventDefault();

@@ -3,6 +3,7 @@
  *
  * toggle fullscreen mode in the browser
  *
+ * Modified by Masanori Kobayashi to show Japanese
  */
 
 jsPsych.plugins.fullscreen = (function() {

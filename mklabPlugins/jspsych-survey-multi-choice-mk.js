@@ -6,6 +6,7 @@
  *
  * documentation: docs.jspsych.org
  *
+ * Modified by Masanori Kobayashi to arrange elements
  */
 
 

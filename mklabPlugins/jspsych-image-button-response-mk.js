@@ -6,6 +6,7 @@
  *
  * documentation: docs.jspsych.org
  *
+ * Modified by Masanori Kobayashi to gather value of responded button
  **/
 
 jsPsych.plugins["image-button-response"] = (function() {
@@ -154,7 +155,8 @@ jsPsych.plugins["image-button-response"] = (function() {
     // store response
     var response = {
       rt: null,
-      button: null
+      button: null,
+        buttonValue: null
     };
 
     // function to handle responses by the subject
@@ -165,6 +167,7 @@ jsPsych.plugins["image-button-response"] = (function() {
       var rt = end_time - start_time;
       response.button = choice;
       response.rt = rt;
+      response.buttonValue = trial.choices[choice];
 
       // after a valid response, the stimulus will have the CSS class 'responded'
       // which can be used to provide visual feedback that a response was recorded
@@ -192,7 +195,8 @@ jsPsych.plugins["image-button-response"] = (function() {
       var trial_data = {
         "rt": response.rt,
         "stimulus": trial.stimulus,
-        "button_pressed": response.button
+        "button_pressed": response.button,
+        "button_value": trial.choices[response.button]
       };
 
       // clear the display
