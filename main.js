@@ -1,6 +1,8 @@
 //参加者番号を生成
 const subjectID = Math.floor(Math.random() * 100000)
-jsPsych.data.addProperties({subjectID: subjectID})
+jsPsych.data.addProperties({
+    subjectID: subjectID
+})
 
 //学習開始のメッセージ
 const readyLearning = {
@@ -26,7 +28,7 @@ const learningTrial = {
 const learningPhase = {
     timeline: [learningTrial],
     timeline_variables: learningWordList,
-    data : {
+    data: {
         phase: 'learning'
     }
 }
@@ -84,8 +86,7 @@ let startTime;
 
 const getStartTime = {
     type: 'call-function',
-    func: function()
-    {
+    func: function () {
         startTime = Date.now();
     }
 }
@@ -103,7 +104,7 @@ const mathPhase = {
             return false;
         };
     },
-    data : {
+    data: {
         phase: 'math'
     }
 };
@@ -143,20 +144,18 @@ timeline.push(readyLearning);
 timeline.push(learningPhase);
 
 //計算段階
-switch(addMathPhase)
-    {
-        case 0 :
-            break;
-        case 1 :
+switch (addMathPhase) {
+    case 0:
+        break;
+    case 1:
+        timeline.push(getStartTime, mathPhase)
+        break;
+    case 2:
+        if (subjectID % 2 == 0) {
             timeline.push(getStartTime, mathPhase)
-            break;
-        case 2 :
-            if(subjectID % 2 == 0)
-                {
-                    timeline.push(getStartTime, mathPhase)
-                }
-            break;
-    }
+        }
+        break;
+}
 
 //自由再生段階
 timeline.push(freeRecallPhase)
@@ -169,7 +168,7 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         //データ保存の設定
-        switch (savingMehotd) {
+        switch (savingMethod) {
             case 0:
                 //終了時にデータを画面に表示
                 jsPsych.data.displayData("csv")
@@ -178,6 +177,8 @@ jsPsych.init({
 
                 //終了時にデータをcsvに出力
                 jsPsych.data.get().localSave("csv", "data.csv")
+                break;
+            case 2:
                 break;
         }
     }
