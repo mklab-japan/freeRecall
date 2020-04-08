@@ -4,7 +4,7 @@
 // 0 = 計算課題なし
 // 1 = 計算課題あり`
 // 2 = 参加者IDが偶数のみ計算課題あり
-const addMathPhase = 1;
+const addMathPhase = 2;
 
 //計算課題ありの場合の計算課題の制限時間（単位はms）
 const mathDuration = 10 * 1000;
@@ -34,4 +34,4 @@ const finishMSGtext = '<p>実験終了です！お疲れさまでした！</p>'
 // 0 = 終了後に画面に表示
 // 1 = 終了時にcsvで出力
 // 2 = 何も出さない（体験用）
-const savingMethod = 0;
+const savingMethod = 2;
