@@ -28,4 +28,7 @@ for (i in learningWordList) {
 }
 
 //ランダマイズ
-learningWordList = jsPsych.randomization.shuffle(learningWordList)
+if(randomizedOrder == 1)
+{
+    learningWordList = jsPsych.randomization.shuffle(learningWordList)
+}

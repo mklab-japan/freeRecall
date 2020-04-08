@@ -12,6 +12,11 @@ const mathDuration = 10 * 1000;
 //学習単語の呈示時間（単位はms）
 const learningDuration = 1 * 1000;
 
+//学習単語をランダム呈示するかどうか
+// 0 = ランダム呈示しない（learningWordListの上から順に呈示）
+// 1 = ランダム呈示する
+const randomizedOrder = 1;
+
 //自由再生の時間（単位はms）
 const freeRecallDuration = 60 * 1000;
 
